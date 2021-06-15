@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table border="1" cellpadding="2" cellspacing="2">
+        <tr>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParam"]">Id</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParam"]">Title</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]">Release Date</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["GenreSortParam"]">Genre</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParam"]">Price</a></th>
+        </tr>
+        @foreach (var movie in ViewBag.movies)
+        {
+            <tr>
+                <td>@movie.Id</td>
+                <td>@movie.Title</td>
+                <td>@movie.ReleaseDate</td>
+                <td>@movie.Genre</td>
+                <td>@movie.Price</td>
+                <td><a asp-controller="movie" asp-action="Edit" asp-route-id="@movie.Id">Edit</a>  | <a asp-controller="movie" asp-action="Delete" asp-route-id="@movie.Id" onclick="return confirm('Are you sure you would like to delete this movie?');">Delete</a></td>
+            </tr>
+        }
+    </table>
+    <cs-pager cs-paging-pagenumber="1" cs-paging-totalitems="50" cs-paging-pagesize="1" cs-pagenumber-param="pageNumber" asp-controller="Movie" asp-action="Index"
+              cs-pager-li-current-class="page-item active" cs-pager-li-other-class="page-item" cs-pager-li-non-active-class="page-item disabled"
+              cs-pager-link-current-class="page-link" cs-pager-link-other-class="page-link"></cs-pager>
+</body>
+</html>

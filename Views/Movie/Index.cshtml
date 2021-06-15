@@ -1,0 +1,47 @@
+﻿@model cloudscribe.Pagination.Models.PagedResult<Movie>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <form asp-controller="Movie" asp-action="Index">
+        <p>
+            Title: <input type="text" name="SearchString">
+            <input type="submit" value="Filter" />
+        </p>
+    </form>
+    <table border="1" cellpadding="2" cellspacing="2">
+        <tr>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParam"]">Id</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParam"]">Title</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]">Release Date</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["GenreSortParam"]">Genre</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParam"]">Price</a></th>
+        </tr>
+        @foreach (var item in Model.Data)
+        {
+            <tr>
+                <td>@Html.DisplayFor(m => item.Id)</td>
+                <td>@Html.DisplayFor(m => item.Title)</td>
+                <td>@Html.DisplayFor(m => item.ReleaseDate)</td>
+                <td>@Html.DisplayFor(m => item.Genre)</td>
+                <td>@Html.DisplayFor(m => item.Price)</td>
+                <td><a asp-controller="movie" asp-action="Edit" asp-route-id="@item.Id">Edit</a>  | <a asp-controller="movie" asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you would like to delete this movie?');">Delete</a></td>
+            </tr>
+        }
+    </table>
+    <cs-pager cs-paging-pagenumber=(int)Model.PageNumber cs-paging-totalitems=(int)Model.TotalItems cs-paging-pagesize=(int)Model.PageSize cs-pagenumber-param="pageNumber" asp-controller="Movie" asp-action="Index"
+              cs-pager-li-current-class="page-item active" cs-pager-li-other-class="page-item" cs-pager-li-non-active-class="page-item disabled"
+              cs-pager-link-current-class="page-link" cs-pager-link-other-class="page-link"></cs-pager>
+</body>
+</html>
